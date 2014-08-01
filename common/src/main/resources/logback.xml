@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder
+			by default -->
+		<encoder>
+			<pattern>%date{MM/dd/yyyy HH:mm:ss} %-5level %logger{10}:%line - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="appLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${catalina.home}/logs/mercury.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+ 			<!-- daily rollover -->
+			<fileNamePattern>${catalina.home}/logs/revProxy_log.%d{yyyy-MM-dd}.log</fileNamePattern>
+
+ 			<!-- keep 100 days' worth of history -->
+			<maxHistory>100</maxHistory>
+		</rollingPolicy>
+
+		<append>true</append>
+
+		<encoder>
+			<pattern>%date{MM/dd/yyyy HH:mm:ss} %-5level %logger{10}:%line - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+<!-- additivity=false ensures analytics data only goes to the log refered-->
+	<logger name="com.cengage.mercury" level="info" additivity="false">
+		<appender-ref ref="appLog" />
+	</logger>
+
+	<logger name="org.springframework" level="info">
+		<appender-ref ref="STDOUT" />
+	</logger>
+
+	<root level="warn">
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>

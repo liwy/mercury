@@ -1,4 +1,0 @@
-mercury
-=======
-
-Mercury scale up
